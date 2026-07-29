@@ -14,7 +14,8 @@ class ItemPedido(BaseModel):
     produto_id: str
     quantidade: int
     tamanho: int
+    preco_unitario: float
 
 class PedidoSchema(BaseModel):
     itens: List[ItemPedido]
-    total: float
+    valor_total: float

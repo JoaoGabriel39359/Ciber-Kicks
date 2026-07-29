@@ -7,15 +7,18 @@ import { FavoritesProvider } from './src/contexts/FavoritesContext';
 
 // Main Navigation Routes Manager
 import { AppRoutes } from './src/routes/AppRoutes';
+import { AuthProvider } from './src/contexts/AuthContext';
 
 export default function App() {
   return (
-    <CartProvider>
-      <FavoritesProvider>
-        <NavigationContainer>
-          <AppRoutes />
-        </NavigationContainer>
-      </FavoritesProvider>
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <FavoritesProvider>
+          <NavigationContainer>
+            <AppRoutes />
+          </NavigationContainer>
+        </FavoritesProvider>
+      </CartProvider>
+    </AuthProvider>
   );
 }

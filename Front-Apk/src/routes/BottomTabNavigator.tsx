@@ -8,7 +8,7 @@ import { HomeScreen } from '../screens/HomeScreen';
 import { SearchScreen } from '../screens/SearchScreen';
 import { CartScreen } from '../screens/CartScreen';
 import { FavoritesScreen } from '../screens/FavoritesScreen';
-import { ProfileScreen } from '../screens/ProfileScreen';
+import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { useCart } from '../contexts/CartContext';
 
 const Tab = createBottomTabNavigator();

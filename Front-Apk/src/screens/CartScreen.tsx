@@ -8,11 +8,14 @@ import {
     Image,
     TouchableOpacity,
     StatusBar,
+    Alert,
 } from 'react-native';
 import { useCart, ItemCarrinho } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext'; // 1. IMPORTANTE: Importamos o AuthContext
 
 export function CartScreen({ navigation }: any) {
     const { itens, removerItem, atualizarQuantidade, valorTotal, limparCarrinho } = useCart();
+    const { signed } = useAuth(); // 2. IMPORTANTE: Pegamos se o usuário está autenticado
 
     useEffect(() => {
         navigation.setOptions({
@@ -30,6 +33,29 @@ export function CartScreen({ navigation }: any) {
             return { uri: imagem.replace(/^http:\/\//, 'https://') };
         }
         return imagem;
+    };
+
+    // 3. Função responsável por decidir para onde mandar o usuário
+    const handleFinalizarPedido = () => {
+        if (!signed) {
+            Alert.alert(
+                'Autenticação Necessária',
+                'Faça login ou crie uma conta para finalizar o seu pedido.',
+                [
+                    { text: 'Cancelar', style: 'cancel' },
+                    {
+                        text: 'Fazer Login',
+                        onPress: () => navigation.navigate('LoginScreen')
+                    }
+                ]
+            );
+            return;
+        }
+
+        // Se estiver logado, prossegue com a compra
+        Alert.alert('Sucesso!', 'Pedido finalizado com sucesso!');
+        limparCarrinho();
+        navigation.navigate('HomeTab');
     };
 
     return (
@@ -150,11 +176,7 @@ export function CartScreen({ navigation }: any) {
                         <TouchableOpacity
                             style={styles.btnCheckout}
                             activeOpacity={0.85}
-                            onPress={() => {
-                                alert('Pedido finalizado com sucesso!');
-                                limparCarrinho();
-                                navigation.navigate('HomeTab');
-                            }}
+                            onPress={handleFinalizarPedido}
                         >
                             <Text style={styles.textoBtnCheckout}>FINALIZAR PEDIDO →</Text>
                         </TouchableOpacity>
